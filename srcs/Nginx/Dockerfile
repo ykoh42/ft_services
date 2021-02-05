@@ -12,7 +12,6 @@ RUN		openssl req					\
 		-subj "/C=KR/ST=Seoul/O=42Seoul/CN=localhost"
 
 COPY	default.conf /etc/nginx/conf.d
-COPY	index.html /var/www/localhost
 
 
 RUN		sed 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' -i /etc/ssh/sshd_config \
