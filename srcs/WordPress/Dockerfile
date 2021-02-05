@@ -9,25 +9,17 @@ RUN 	apk add nginx php php-fpm php-mysqli
 
 
 # Config wordpress
-RUN	wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz\
-&& 	tar -xzvf /tmp/wordpress.tar.gz -C /var/www\
-&&	mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php\
-# &&	chown -R root /var/www/wordpress\
-&&	sed -i "s/database_name_here/wordpress/g" /var/www/wordpress/wp-config.php\
-&&	sed -i "s/username_here/root/g" /var/www/wordpress/wp-config.php\
+RUN	wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz \
+&& 	tar -xzvf /tmp/wordpress.tar.gz -C /var/www \
+&&	mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php \
+# &&	chown -R root /var/www/wordpress \
+&&	sed -i "s/database_name_here/wordpress/g" /var/www/wordpress/wp-config.php \
+&&	sed -i "s/username_here/root/g" /var/www/wordpress/wp-config.php \
 && 	sed -i "s/password_here//g" /var/www/wordpress/wp-config.php
 
 COPY	default.conf /etc/nginx/conf.d
-COPY	index.html /var/www/wordpress
-
 
 RUN		mkdir -p /run/nginx
 
-
-RUN 	apk add vim 
-
-#CMD		php-fpm7 && nginx -g "daemon off;"
-
-
-
+CMD		php-fpm7 && nginx -g "daemon off;"
 
