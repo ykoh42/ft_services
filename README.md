@@ -28,13 +28,13 @@
 	apiVersion: v1
 	kind: ConfigMap
 	metadata:
-	namespace: metallb-system
-	name: config
+	  namespace: metallb-system
+	  name: config
 	data:
-	config: |
-		address-pools:
-		- name: default
-		protocol: layer2
-		addresses:
-		- 192.168.0.2-192.168.0.2 # ipconfig getifaddr en0
+	  config: |
+	    address-pools:
+	    - name: default
+	      protocol: layer2
+	      addresses:
+	      - 192.168.0.2-192.168.0.2 # ipconfig getifaddr en0
 	```
