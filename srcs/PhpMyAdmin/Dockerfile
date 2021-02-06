@@ -12,5 +12,4 @@ RUN	wget -O /tmp/phpmyadmin.tar.gz https://www.phpmyadmin.net/downloads/phpMyAdm
 COPY	default.conf /etc/nginx/conf.d
 RUN		mkdir -p /run/nginx
 
-#CMD		php-fpm7 && nginx -g "daemon off;"
-
+CMD		php-fpm7 && nginx -g "daemon off;"
