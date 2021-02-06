@@ -4,3 +4,7 @@ docker rm $(docker ps -a -q)
 
 # 도커 이미지 삭제
 docker rmi $(docker images -q) 
+
+kubectl delete -f srcs/phpmyadmin/config.yaml
+kubectl delete -f srcs/WordPress/config.yaml
+kubectl delete -f srcs/Nginx/config.yaml

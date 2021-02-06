@@ -1,25 +1,30 @@
 ./delete.sh
 
-# MetalLB for docker desktop
+# MetalLB
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+export HOST_IP=`ipconfig getifaddr en0`-`ipconfig getifaddr en0`
+sed -i "" "s/HOST_IP/$HOST_IP/" srcs/MetalLB/config.yaml
 kubectl apply -f srcs/MetalLB/config.yaml
+sed -i "" "s/$HOST_IP/HOST_IP/" srcs/MetalLB/config.yaml
 
 
-# Nginx
-docker build -t nginx srcs/Nginx
-# docker run -p 80:80 -p 443:443 -p 22:22 -d nginx
-kubectl apply -f srcs/Nginx/config.yaml
+# PhpMyAdmin
+# docker run -p 5000:5000 -it phpmyadmin
+docker build -t phpmyadmin srcs/PhpMyAdmin
+kubectl apply -f srcs/phpmyadmin/config.yaml
 
 # WordPress
+# docker run -p 5050:5050 -it wordpress
 docker build -t wordpress srcs/WordPress
-# # docker run -p 5050:5050 -it wordpress
 kubectl apply -f srcs/WordPress/config.yaml
 
-# docker build -t phpmyadmin srcs/PhpMyAdmin
-# # docker run -p 5000:5000 -it phpmyadmin
-# kubectl apply -f srcs/phpmyadmin/config.yaml
+# Nginx
+# docker run -p 80:80 -p 443:443 -p 22:22 -p 5000:5000 -p 5050:5050 -d nginx
+kubectl delete -f srcs/Nginx/config.yaml
+docker build -t nginx srcs/Nginx
+kubectl apply -f srcs/Nginx/config.yaml
 
 # # docker build -t mysql srcs/MySQL
 # # docker run -p 3306:3306 -it mysql
