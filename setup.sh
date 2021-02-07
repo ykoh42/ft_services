@@ -17,6 +17,7 @@ kubectl apply -f srcs/phpmyadmin/config.yaml
 
 # WordPress
 # docker run -p 5050:5050 -it wordpress
+kubectl delete -f srcs/WordPress/config.yaml
 docker build -t wordpress srcs/WordPress
 kubectl apply -f srcs/WordPress/config.yaml
 
