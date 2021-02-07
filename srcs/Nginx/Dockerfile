@@ -11,7 +11,8 @@ RUN		openssl req					\
 		-out /etc/ssl/certs/localhost.crt		\
 		-subj "/C=KR/ST=Seoul/O=42Seoul/CN=$HOST_IP"
 
-COPY	default.conf /etc/nginx/conf.d
+COPY	default.conf /etc/nginx/http.d
+COPY	default.conf /
 
 RUN		sed 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' -i /etc/ssh/sshd_config \
 && sed 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/' -i /etc/ssh/sshd_config \

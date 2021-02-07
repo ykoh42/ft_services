@@ -17,7 +17,7 @@ RUN	wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz \
 &&	sed -i "s/username_here/root/g" /var/www/wordpress/wp-config.php \
 && 	sed -i "s/password_here//g" /var/www/wordpress/wp-config.php
 
-COPY	default.conf /etc/nginx/conf.d
+COPY	default.conf /etc/nginx/http.d
 
 RUN		mkdir -p /run/nginx
 
