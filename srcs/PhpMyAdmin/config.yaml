@@ -30,7 +30,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: "sharing key"
 spec:
   type: LoadBalancer
-  ports:
-  - port: 5000
   selector:
     app: phpmyadmin
+  ports:
+  - port: 5000

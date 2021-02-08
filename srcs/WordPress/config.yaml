@@ -30,7 +30,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: "sharing key"
 spec:
   type: LoadBalancer
-  ports:
-    - port: 5050
   selector:
     app: wordpress
+  ports:
+    - port: 5050

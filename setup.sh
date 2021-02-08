@@ -1,42 +1,3 @@
-############################################################################
-# Dashboard
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
-
-# Creating sample user
-
-# Creating a Service Account
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: admin-user
-  namespace: kubernetes-dashboard
-EOF
-
-# Creating a ClusterRoleBinding
-cat <<EOF | kubectl apply -f -
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: admin-user
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: admin-user
-  namespace: kubernetes-dashboard
-EOF
-
-# Getting a Bearer Token
-kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
-
-kubectl proxy &
-
-open "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=default"
-############################################################################
-
 ./delete.sh
 
 # MetalLB
@@ -69,8 +30,10 @@ kubectl apply -f srcs/Nginx/config.yaml
 # # docker build -t mysql srcs/MySQL
 # # docker run -p 3306:3306 -it mysql
 
-# # docker build -t ftps srcs/FTPS
-# # docker run -p 20:20 -p 21:21 -p 20020:20020 -p 20021:20021 -it ftps
+docker build -t ftps srcs/FTPS
+# docker run -p 20:20 -p 21:21 -p 20020:20020 -p 20021:20021 -it ftps
+kubectl apply -f srcs/FTPS/config.yaml
+
 
 # # docker build -t grafana srcs/Grafana
 # # docker run -p 3000:3000 -it grafana
@@ -79,6 +42,60 @@ kubectl apply -f srcs/Nginx/config.yaml
 # # docker run -p 8086:8086 -it influxdb
 
 
+############################################################################
+# Dashboard
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+
+# Creating sample user
+
+# Creating a Service Account
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+EOF
+
+# Creating a ClusterRoleBinding
+cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+EOF
+
+# Getting a Bearer Token
+
+printf "Bearer Token\n\n"
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+printf "\n\n"
+
+kubectl proxy &
+
+echo "5"
+sleep 1
+echo "4"
+sleep 1
+echo "3"
+sleep 1
+echo "2"
+sleep 1
+echo "1"
+sleep 1
+echo "0"
+sleep 1
+
+open "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=default"
+############################################################################
 
 
 
