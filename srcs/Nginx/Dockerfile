@@ -9,10 +9,7 @@ RUN		openssl req					\
 		-x509 -nodes -days 365 -newkey rsa:2048		\
 		-keyout /etc/ssl/private/localhost.key		\
 		-out /etc/ssl/certs/localhost.crt		\
-		-subj "/C=KR/ST=Seoul/O=42Seoul/CN=$HOST_IP"
-
-COPY	default.conf /etc/nginx/http.d
-COPY	default.conf /
+		-subj "/C=KR/ST=Seoul/O=42Seoul/CN=localhost"
 
 RUN		sed 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' -i /etc/ssh/sshd_config \
 && sed 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/' -i /etc/ssh/sshd_config \
