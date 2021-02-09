@@ -30,6 +30,7 @@ kubectl apply -f srcs/phpmyadmin/config.yaml
 
 
 # Nginx
+kubectl delete -f srcs/Nginx/config.yaml
 docker build -t nginx srcs/Nginx
 kubectl apply -f srcs/Nginx/config.yaml
 

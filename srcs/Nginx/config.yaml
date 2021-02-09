@@ -58,19 +58,14 @@ spec:
         - containerPort: 80
         - containerPort: 443
         - containerPort: 22
-        envFrom:
-        - secretRef:
-            name: host-ip
-        - secretRef:
-            name: account
+        livenessProbe:
+          tcpSocket:
+            port: 22
         volumeMounts:
         - name: nginx-config
           subPath: default.conf
           mountPath: /etc/nginx/http.d/default.conf
           readOnly: true
-        livenessProbe:
-          tcpSocket:
-            port: 22
       volumes:
         - name: nginx-config
           configMap:
