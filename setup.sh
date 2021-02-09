@@ -17,5 +17,19 @@ sed -i "" "s/ADDRESSES/$ADDRESSES/" srcs/MetalLB/config.yaml
 kubectl apply -f srcs/MetalLB/config.yaml
 sed -i "" "s/$ADDRESSES/ADDRESSES/" srcs/MetalLB/config.yaml
 
+
+# MySQL
+kubectl delete -f srcs/MySQL/config.yaml
+docker build -t mysql srcs/MySQL
+kubectl apply -f srcs/MySQL/config.yaml
+
+# PhpMyAdmin
+kubectl delete -f srcs/phpmyadmin/config.yaml
+docker build -t phpmyadmin srcs/PhpMyAdmin
+kubectl apply -f srcs/phpmyadmin/config.yaml
+
+
+# Nginx
 docker build -t nginx srcs/Nginx
 kubectl apply -f srcs/Nginx/config.yaml
+
