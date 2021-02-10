@@ -13,12 +13,28 @@ data:
     skip-networking = false
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
   labels:
     app: mysql
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
@@ -46,22 +62,23 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 3306
+        envFrom:
+        - secretRef:
+            name: account
         volumeMounts:
-        - name: mysql
+        - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
-        volumeMounts:
         - name: mysql-config
           subPath: my.cnf
           mountPath: /etc/my.cnf
           readOnly: true
       volumes:
-      - name: mysql
+      - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: mysql-pv-claim
-      volumes:
-        - name: mysql-config
-          configMap:
-            name: mysql-config
+      - name: mysql-config
+        configMap:
+          name: mysql-config
 ---
 apiVersion: v1
 kind: Service
