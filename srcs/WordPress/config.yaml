@@ -169,12 +169,12 @@ spec:
           mountPath: /var/www/wordpress/wp-config.php
           readOnly: true
       volumes:
-        - name: wordpress-nginx-config
-          configMap:
-            name: wordpress-nginx-config
-        - name: wordpress-config
-          configMap:
-            name: wordpress-config
+      - name: wordpress-nginx-config
+        configMap:
+          name: wordpress-nginx-config
+      - name: wordpress-config
+        configMap:
+          name: wordpress-config
 ---
 apiVersion: v1
 kind: Service

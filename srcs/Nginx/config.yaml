@@ -68,9 +68,9 @@ spec:
           mountPath: /etc/nginx/http.d/default.conf
           readOnly: true
       volumes:
-        - name: nginx-config
-          configMap:
-            name: nginx-config
+      - name: nginx-config
+        configMap:
+          name: nginx-config
 ---
 apiVersion: v1
 kind: Service

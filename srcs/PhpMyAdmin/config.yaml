@@ -234,12 +234,12 @@ spec:
           mountPath: /var/www/phpmyadmin/config.inc.php
           readOnly: true
       volumes:
-        - name: phpmyadmin-nginx-config
-          configMap:
-            name: phpmyadmin-nginx-config
-        - name: phpmyadmin-config
-          configMap:
-            name: phpmyadmin-config
+      - name: phpmyadmin-nginx-config
+        configMap:
+          name: phpmyadmin-nginx-config
+      - name: phpmyadmin-config
+        configMap:
+          name: phpmyadmin-config
 ---
 apiVersion: v1
 kind: Service
