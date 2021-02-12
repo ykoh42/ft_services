@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: phpmyadmin-nginx-config
+  name: phpmyadmin-config
 data:
   default.conf: |
     server {
@@ -33,12 +33,6 @@ data:
         fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
       }
     }
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: phpmyadmin-config
-data:
   config.inc.php: |
     <?php
     /* vim: set expandtab sw=4 ts=4 sts=4: */
@@ -225,7 +219,7 @@ spec:
         - secretRef:
             name: account
         volumeMounts:
-        - name: phpmyadmin-nginx-config
+        - name: phpmyadmin-config
           subPath: default.conf
           mountPath: /etc/nginx/http.d/default.conf
           readOnly: true
@@ -234,9 +228,6 @@ spec:
           mountPath: /var/www/phpmyadmin/config.inc.php
           readOnly: true
       volumes:
-      - name: phpmyadmin-nginx-config
-        configMap:
-          name: phpmyadmin-nginx-config
       - name: phpmyadmin-config
         configMap:
           name: phpmyadmin-config
