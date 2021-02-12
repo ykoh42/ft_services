@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wordpress-nginx-config
+  name: wordpress-config
 data:
   default.conf: |
     server {
@@ -33,12 +33,6 @@ data:
         fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
       }
     }
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wordpress-config
-data:
   wp-config.php: |
     <?php
     /**
@@ -160,7 +154,7 @@ spec:
         - secretRef:
             name: account
         volumeMounts:
-        - name: wordpress-nginx-config
+        - name: wordpress-config
           subPath: default.conf
           mountPath: /etc/nginx/http.d/default.conf
           readOnly: true
@@ -169,9 +163,6 @@ spec:
           mountPath: /var/www/wordpress/wp-config.php
           readOnly: true
       volumes:
-      - name: wordpress-nginx-config
-        configMap:
-          name: wordpress-nginx-config
       - name: wordpress-config
         configMap:
           name: wordpress-config
