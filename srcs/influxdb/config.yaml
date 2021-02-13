@@ -609,8 +609,6 @@ stringData:
   INFLUXDB_DB: telegraf
   INFLUXDB_ADMIN_USER: admin
   INFLUXDB_ADMIN_PASSWORD: admin
-  INFLUXDB_USER: ykoh
-  INFLUXDB_USER_PASSWORD: ykoh
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -662,6 +660,9 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8086
+        envFrom:
+        - secretRef:
+            name: influxdb-secret
         volumeMounts:
         - name: influxdb-persistent-storage
           mountPath: /var/lib/influxdb
