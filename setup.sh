@@ -1,7 +1,7 @@
 #########################################################################################################################
 # Delete image
 #########################################################################################################################
-# ./delete.sh
+./delete.sh
 #########################################################################################################################
 
 
@@ -32,7 +32,7 @@ sed -i "" "s/$ADDRESSES/ADDRESSES/" srcs/MetalLB/config.yaml
 # MySQL
 #########################################################################################################################
 # docker build -t mysql srcs/MySQL && docker run -p 3306:3306 -it mysql
-kubectl delete -f srcs/MySQL/config.yaml
+# kubectl delete -f srcs/MySQL/config.yaml
 docker build -t mysql srcs/MySQL
 kubectl apply -f srcs/MySQL/config.yaml
 #########################################################################################################################
@@ -54,7 +54,7 @@ kubectl apply -f srcs/PhpMyAdmin/config.yaml
 # WordPress
 #########################################################################################################################
 # docker build -t wordpress srcs/WordPress && docker run -p 5050:5050 -it wordpress
-kubectl delete -f srcs/WordPress/config.yaml
+# kubectl delete -f srcs/WordPress/config.yaml
 docker build -t wordpress srcs/WordPress
 kubectl apply -f srcs/WordPress/config.yaml
 #########################################################################################################################
@@ -72,17 +72,6 @@ kubectl apply -f srcs/Nginx/config.yaml
 
 
 
-#########################################################################################################################
-# telegraf
-#########################################################################################################################
-# docker build -t telegraf srcs/telegraf && docker run -it telegraf
-kubectl delete -f srcs/telegraf/config.yaml
-docker build -t telegraf srcs/telegraf
-kubectl apply -f srcs/telegraf/config.yaml
-#########################################################################################################################
-
-
-
 
 #########################################################################################################################
 # influxDB
@@ -95,21 +84,36 @@ kubectl apply -f srcs/influxDB/config.yaml
 
 
 
+
+#########################################################################################################################
+# telegraf
+#########################################################################################################################
+# docker build -t telegraf srcs/telegraf && docker run -it telegraf
+# kubectl delete -f srcs/telegraf/config.yaml
+docker build -t telegraf srcs/telegraf
+kubectl apply -f srcs/telegraf/config.yaml
+#########################################################################################################################
+
+
+
+
 #########################################################################################################################
 # Grafana
 #########################################################################################################################
 # docker build -t grafana srcs/Grafana && docker run -p 3000:3000 -it grafana
-kubectl delete -f srcs/Grafana/config.yaml
+# kubectl delete -f srcs/Grafana/config.yaml
 docker build -t grafana srcs/Grafana
 kubectl apply -f srcs/Grafana/config.yaml
 #########################################################################################################################
 
 
 
+
+
 #########################################################################################################################
 # FTPS
 #########################################################################################################################
-kubectl delete -f srcs/FTPS/config.yaml
+# kubectl delete -f srcs/FTPS/config.yaml
 docker build -t ftps srcs/FTPS
 export HOST_IP=`ipconfig getifaddr en0`
 sed -i "" "s/HOST_IP/$HOST_IP/" srcs/FTPS/config.yaml
@@ -154,9 +158,8 @@ echo "Bearer Token\n"
 kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 echo "\n"
 
-# Dashboard URL
-echo open "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/"
-
 # Commandline proxy
-kubectl proxy
-#########################################################################################################################
+kubectl proxy &
+
+# Dashboard URL
+open "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/"
