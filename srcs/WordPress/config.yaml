@@ -156,7 +156,7 @@ spec:
         volumeMounts:
         - name: wordpress-config
           subPath: default.conf
-          mountPath: /etc/nginx/http.d/default.conf
+          mountPath: /etc/nginx/conf.d/default.conf
           readOnly: true
         - name: wordpress-config
           subPath: wp-config.php
