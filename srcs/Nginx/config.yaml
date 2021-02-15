@@ -19,6 +19,10 @@ data:
 
       # error_page 497 https://$host$request_uri;
 
+      location /index.php {
+        return 301 https://$host/phpmyadmin/;
+      }
+
       location /wordpress {
         return 307 http://$host:5050/;
       }
