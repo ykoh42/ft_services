@@ -159,6 +159,7 @@ kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get
 echo "\n"
 
 # Commandline proxy
+kill -9 $(lsof -ti :8001)
 kubectl proxy &
 
 # Dashboard URL
