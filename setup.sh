@@ -1,8 +1,14 @@
 #########################################################################################################################
-# Delete image
+# Delete
 #########################################################################################################################
-./delete.sh
+# Delete all containers
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
+# Delete images
+docker rmi $(docker images -q) 
 #########################################################################################################################
+
 
 
 #########################################################################################################################
@@ -43,7 +49,7 @@ kubectl apply -f srcs/MySQL/config.yaml
 # PhpMyAdmin
 #########################################################################################################################
 # docker build -t phpmyadmin srcs/PhpMyAdmin && docker run -p 5000:5000 -it phpmyadmin
-kubectl delete -f srcs/PhpMyAdmin/config.yaml
+# kubectl delete -f srcs/PhpMyAdmin/config.yaml
 docker build -t phpmyadmin srcs/PhpMyAdmin
 kubectl apply -f srcs/PhpMyAdmin/config.yaml
 #########################################################################################################################
@@ -65,11 +71,10 @@ kubectl apply -f srcs/WordPress/config.yaml
 # Nginx
 #########################################################################################################################
 # docker build -t nginx srcs/Nginx && docker run -p 22:22 -it nginx
-kubectl delete -f srcs/Nginx/config.yaml
+# kubectl delete -f srcs/Nginx/config.yaml
 docker build -t nginx srcs/Nginx
 kubectl apply -f srcs/Nginx/config.yaml
 #########################################################################################################################
-
 
 
 
@@ -77,11 +82,10 @@ kubectl apply -f srcs/Nginx/config.yaml
 # influxDB
 #########################################################################################################################
 # docker build -t influxdb srcs/influxDB && docker run -p 8086:8086 -it influxdb
-kubectl delete -f srcs/influxDB/config.yaml
+# kubectl delete -f srcs/influxDB/config.yaml
 docker build -t influxdb srcs/influxDB
 kubectl apply -f srcs/influxDB/config.yaml
 #########################################################################################################################
-
 
 
 
@@ -96,7 +100,6 @@ kubectl apply -f srcs/telegraf/config.yaml
 
 
 
-
 #########################################################################################################################
 # Grafana
 #########################################################################################################################
@@ -105,8 +108,6 @@ kubectl apply -f srcs/telegraf/config.yaml
 docker build -t grafana srcs/Grafana
 kubectl apply -f srcs/Grafana/config.yaml
 #########################################################################################################################
-
-
 
 
 
@@ -153,10 +154,6 @@ subjects:
   namespace: kubernetes-dashboard
 EOF
 
-# Getting a Bearer Token
-echo "Bearer Token\n"
-kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
-echo "\n"
 
 # Commandline proxy
 kill -9 $(lsof -ti :8001)
@@ -164,3 +161,8 @@ kubectl proxy &
 
 # Dashboard URL
 open "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/"
+
+# Getting a Bearer Token
+echo "Type the Bearer Token bellowing to login to dashboard."
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+#########################################################################################################################
