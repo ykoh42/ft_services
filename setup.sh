@@ -17,7 +17,7 @@
 #########################################################################################################################
 # Secret
 #########################################################################################################################
-kubectl create secret generic host-ip --from-literal=HOST_IP="$(ipconfig getifaddr en0)"
+kubectl create secret generic host-ip --from-literal=HOST_IP="$(ipconfig getifaddr en1)"
 kubectl create secret generic account --from-literal=USER="ykoh" --from-literal=PASSWORD="ykoh"
 #########################################################################################################################
 
@@ -29,7 +29,7 @@ kubectl create secret generic account --from-literal=USER="ykoh" --from-literal=
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-export ADDRESSES=`ipconfig getifaddr en0`-`ipconfig getifaddr en0`
+export ADDRESSES=`ipconfig getifaddr en1`-`ipconfig getifaddr en1`
 sed -i "" "s/ADDRESSES/$ADDRESSES/" srcs/MetalLB/config.yaml
 kubectl apply -f srcs/MetalLB/config.yaml
 sed -i "" "s/$ADDRESSES/ADDRESSES/" srcs/MetalLB/config.yaml
@@ -119,7 +119,7 @@ kubectl apply -f srcs/Grafana/config.yaml
 #########################################################################################################################
 # kubectl delete -f srcs/FTPS/config.yaml
 docker build -t ftps srcs/FTPS
-export HOST_IP=`ipconfig getifaddr en0`
+export HOST_IP=`ipconfig getifaddr en1`
 sed -i "" "s/HOST_IP/$HOST_IP/" srcs/FTPS/config.yaml
 kubectl apply -f srcs/FTPS/config.yaml
 sed -i "" "s/$HOST_IP/HOST_IP/" srcs/FTPS/config.yaml
