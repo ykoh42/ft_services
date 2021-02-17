@@ -56,7 +56,7 @@ Test with curl or filezilla.
 ### WordPress, MySQL and PhpMyAdmin
 Test with safari(private browsing).
 - [x] Write comments.
-- [x] Check 'wp_comments' table with PhpMyAdmin.
+- [x] Check `wp_comments` table with PhpMyAdmin.
 - [x] Delete MySQL pod and check comments are still exist.
 
 ### Grafana and influxDB
