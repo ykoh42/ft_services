@@ -6,31 +6,36 @@ The project consists of setting up an infrastructure of different services(Grafa
 ![Project diagram](https://github.com/kohyounghwan/ft_services/blob/master/Diagram.png?raw=true)
 
 ## Getting started
-1. Install Docker Desktop.
+**1. Install Docker Desktop.**
+
 	```
 	https://www.docker.com/get-started
 	```
 
-2. Enable single-node cluster on your local system.
+**2. Enable single-node cluster on your local system.**
+
 	```
 	docker > preferences > Kubernetes > Enable Kubernetes > Apply & Restart
 	```
 	reference : https://docs.docker.com/docker-for-mac/#kubernetes
 
-3. Clone this repository.
+**3. Clone this repository.**
+
 	```sh
 	git clone https://github.com/kohyounghwan/ft_services.git
 	cd ft_services
 	```
 
-4. Select which ethernet you are going to use.
+**4. Select which ethernet you are going to use.**
+
 	```sh
 	# Search with 'ifconfig'
 	# default 'en0', if you want to change en1, type below
 	sed -i "" "s/en0/en1/g" setup.sh
 	```
 
-5. Execute setup.sh
+**5. Execute setup.sh**
+
 	```sh
 	./setup.sh
 	```
@@ -61,12 +66,12 @@ Test with safari(private browsing).
 
 ### Persistence
 Test with terminal.
-- [x] kubectl exec deploy/ftps -- pkill vsftpd
-- [x] kubectl exec deploy/grafana -- pkill grafana-server
-- [x] kubectl exec deploy/influxdb -- pkill influxd
-- [x] kubectl exec deploy/mysql -- pkill mysqld
-- [x] kubectl exec deploy/nginx -- pkill nginx
-- [x] kubectl exec deploy/phpmyadmin -- pkill nginx
-- [x] kubectl exec deploy/phpmyadmin -- pkill php-fpm
-- [x] kubectl exec deploy/wordpress -- pkill nginx
-- [x] kubectl exec deploy/wordpress -- pkill php-fpm
+- [x] `kubectl exec deploy/ftps -- pkill vsftpd`
+- [x] `kubectl exec deploy/grafana -- pkill grafana-server`
+- [x] `kubectl exec deploy/influxdb -- pkill influxd`
+- [x] `kubectl exec deploy/mysql -- pkill mysqld`
+- [x] `kubectl exec deploy/nginx -- pkill nginx`
+- [x] `kubectl exec deploy/phpmyadmin -- pkill nginx`
+- [x] `kubectl exec deploy/phpmyadmin -- pkill php-fpm`
+- [x] `kubectl exec deploy/wordpress -- pkill nginx`
+- [x] `kubectl exec deploy/wordpress -- pkill php-fpm`
