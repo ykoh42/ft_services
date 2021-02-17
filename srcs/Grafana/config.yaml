@@ -1,0 +1,121 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+data:
+  datasources.yaml: |
+    # config file version
+    apiVersion: 1
+
+    # # list of datasources that should be deleted from the database
+    #deleteDatasources:
+    #   - name: Graphite
+    #     orgId: 1
+
+    # list of datasources to insert/update depending
+    # on what's available in the database
+    datasources:
+      # <string, required> name of the datasource. Required
+    - name: InfluxDB
+      # <string, required> datasource type. Required
+      type: influxdb
+      # <string, required> access mode. direct or proxy. Required
+      access: proxy
+      # <int> org id. will default to orgId 1 if not specified
+      orgId: 1
+      # <string> url
+      url: http://influxdb:8086
+      # <string> database password, if used
+      password: admin
+      # <string> database user, if used
+      user: admin
+      # <string> database name, if used
+      database: telegraf
+      # # <bool> enable/disable basic auth
+      # basicAuth:
+      # # <string> basic auth username
+      # basicAuthUser:
+      # # <string> basic auth password
+      # basicAuthPassword:
+      # # <bool> enable/disable with credentials headers
+      # withCredentials:
+      # # <bool> mark as default datasource. Max one per org
+      # isDefault:
+      # # <map> fields that will be converted to json and stored in json_data
+      # jsonData:
+      #    graphiteVersion: "1.1"
+      #    tlsAuth: true
+      #    tlsAuthWithCACert: true
+      #    httpHeaderName1: "Authorization"
+      # # <string> json object of data that will be encrypted.
+      # secureJsonData:
+      #   tlsCACert: "..."
+      #   tlsClientCert: "..."
+      #   tlsClientKey: "..."
+      #   # <openshift\kubernetes token example>
+      #   httpHeaderValue1: "Bearer xf5yhfkpsnmgo"
+      # version: 1
+      # # <bool> allow users to edit datasources from the UI.
+      # editable: false
+  dashboards.yaml: |
+    # config file version
+    apiVersion: 1
+
+    providers:
+    - name: 'influxdb'
+      orgId: 1
+      folder: ''
+      folderUid: ''
+      type: file
+      options:
+        path: /usr/share/grafana/public/dashboards
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - image: grafana
+        name: grafana
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: grafana-config
+          subPath: datasources.yaml
+          mountPath: /usr/share/grafana/conf/provisioning/datasources/datasources.yaml
+          readOnly: true
+        - name: grafana-config
+          subPath: dashboards.yaml
+          mountPath: /usr/share/grafana/conf/provisioning/dashboards/dashboards.yaml
+          readOnly: true
+      volumes:
+      - name: grafana-config
+        configMap:
+          name: grafana-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "sharing key"
+spec:
+  type: LoadBalancer
+  selector:
+    app: grafana
+  ports:
+    - port: 3000

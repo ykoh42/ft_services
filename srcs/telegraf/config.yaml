@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telegraf-config
+data:
+  telegraf.conf: |
+    [agent]
+    interval = "10s"
+    round_interval = true
+    metric_batch_size = 1000
+    metric_buffer_limit = 10000
+    collection_jitter = "0s"
+    flush_interval = "10s"
+    flush_jitter = "0s"
+    precision = ""
+    hostname = ""
+    omit_hostname = false
+    [[outputs.influxdb]]
+    urls = ["http://influxdb:8086"]
+    database = "telegraf"
+    username = "admin"
+    password = "admin"
+    [[inputs.docker]]
+    endpoint = "unix:///var/run/docker.sock"
+    gather_services = false
+    container_names = []
+    source_tag = false
+    container_name_include = []
+    container_name_exclude = []
+    perdevice = true
+    total = false
+    docker_label_include = []
+    docker_label_exclude = []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegraf
+  labels:
+    app: telegraf
+spec:
+  selector:
+    matchLabels:
+      app: telegraf
+  template:
+    metadata:
+      labels:
+        app: telegraf
+    spec:
+      containers:
+      - name: telegraf
+        image: telegraf
+        imagePullPolicy: Never
+        envFrom:
+        - secretRef:
+            name: account
+        volumeMounts:
+        - name: telegraf-config
+          subPath: telegraf.conf
+          mountPath: /etc/telegraf/telegraf.conf
+          readOnly: true
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
+      volumes:
+      - name: telegraf-config
+        configMap:
+          name: telegraf-config
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
+          type: Socket

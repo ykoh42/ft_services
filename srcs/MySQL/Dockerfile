@@ -1,6 +1,6 @@
 FROM		alpine
-EXPOSE		21 20000-20004
-RUN			apk add vsftpd openssl
+EXPOSE		3306
+RUN			apk add mysql mysql-client
 COPY		entry.sh /tmp
 RUN			chmod +x /tmp/entry.sh
 ENTRYPOINT	[ "/bin/sh", "/tmp/entry.sh" ]
