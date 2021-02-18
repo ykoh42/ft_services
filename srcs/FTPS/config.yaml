@@ -121,7 +121,7 @@ spec:
     app: ftps
   ports:
     - port: 21
-      name: ftp-command
+      name: ftps-command
     - port: 20000
       name: ftps-pasv1
     - port: 20001
