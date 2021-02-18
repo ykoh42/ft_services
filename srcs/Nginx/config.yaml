@@ -65,9 +65,9 @@ spec:
             name: account
         - secretRef:
             name: host-ip
-        livenessProbe:
-          tcpSocket:
-            port: 22
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 22
         volumeMounts:
         - name: nginx-config
           subPath: default.conf
