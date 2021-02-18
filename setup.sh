@@ -131,6 +131,7 @@ sed -i "" "s/$HOST_IP/HOST_IP/" srcs/FTPS/config.yaml
 # Dashboard
 #########################################################################################################################
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+kubectl apply -f srcs/metrics-server.yaml
 
 # Creating a Service Account
 cat <<EOF | kubectl apply -f -
@@ -161,7 +162,7 @@ EOF
 kill -9 $(lsof -ti :8001)
 kubectl proxy &
 
-echo "k8s dashboard will be appear in 10s.";echo
+echo "k8s dashboard will be appear in 10s."
 sleep 10
 # Getting a Bearer Token
 echo;echo "Type the Bearer Token bellowing to login to dashboard.";echo
