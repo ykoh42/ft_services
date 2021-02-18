@@ -1,51 +1,49 @@
-# Welcome to the `ft_services`! ![score](https://img.shields.io/badge/0/100-5cb85c?style=for-the-badge) 
+# Welcome to the `ft_services`! ![score](https://img.shields.io/badge/100/100-5cb85c?style=for-the-badge) 
 >  This is a System Administration and Networking project with Kubernetes.
 
 The project consists of setting up an infrastructure of different services(Grafana, WordPress, PhpMyadmin and so on). 
 
-![Project diagram](https://github.com/kohyounghwan/ft_services/blob/master/Diagram.png?raw=true)
+![Project diagram](https://github.com/kohyounghwan/ft_services/blob/master/diagram.png?raw=true)
 
 ## Getting started
 **1. Install Docker Desktop.**
 
-	```
 	https://www.docker.com/get-started
-	```
+	
 
 **2. Enable single-node cluster on your local system.**
 
-	```
-	docker > preferences > Kubernetes > Enable Kubernetes > Apply & Restart
-	```
-	reference : https://docs.docker.com/docker-for-mac/#kubernetes
+	docker > preferences > Kubernetes > Enable Kubernetes > Apply & Restart	
+
+reference : https://docs.docker.com/docker-for-mac/#kubernetes
 
 **3. Clone this repository.**
 
-	```sh
-	git clone https://github.com/kohyounghwan/ft_services.git
-	cd ft_services
-	```
+```sh
+git clone https://github.com/kohyounghwan/ft_services.git
+cd ft_services
+```
 
 **4. Select which ethernet you are going to use.**
 
-	```sh
-	# Search with 'ifconfig'
-	# default 'en0', if you want to change en1, type below
-	sed -i "" "s/en0/en1/g" setup.sh
-	```
+```sh
+# Search with 'ifconfig'
+# default 'en0', if you want to change en1, type below
+sed -i "" "s/en0/en1/g" setup.sh
+```
 
 **5. Execute setup.sh**
 
-	```sh
-	./setup.sh
-	```
+```sh
+./setup.sh
+```
 
 ## TEST
 ### Nginx
 Test with safari(private browsing).
 - [x] http://IP(:80) 301 redirection to https://IP
-- [x] http://IP/wordpress 
-- [x] http://IP/phpmyadmin
+- [x] https://IP/wordpress 
+- [x] https://IP/phpmyadmin
 
 ### FTPS
 Test with curl or filezilla.
