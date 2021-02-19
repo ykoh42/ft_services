@@ -59,7 +59,7 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
-        - containerPort: 22
+        # - containerPort: 22
         envFrom:
         - secretRef:
             name: account
@@ -95,5 +95,5 @@ spec:
       port: 80
     - name: https
       port: 443
-    - name: ssh
-      port: 22
+    # - name: ssh
+    #   port: 22
