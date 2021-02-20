@@ -65,7 +65,7 @@ Test with safari(private browsing).
 ### Persistence
 Test with terminal.
 - [x] `kubectl exec deploy/ftps -- pkill vsftpd`
-- [x] `kubectl exec deploy/grafana -- pkill grafana-server`
+- [x] `kubectl exec deploy/grafana -- pkill grafana`
 - [x] `kubectl exec deploy/influxdb -- pkill influxd`
 - [x] `kubectl exec deploy/mysql -- pkill mysqld`
 - [x] `kubectl exec deploy/nginx -- pkill nginx`
